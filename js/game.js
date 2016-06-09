@@ -26,6 +26,7 @@ function start(callback) {
    alert("START TYPING!");
    textArea.addEventListener('finished',
     addAttributes(textArea, options), false);
+
    textArea.dispatchEvent(fin);
    begin.getTime();
    //callback();
