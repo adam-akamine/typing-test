@@ -24,9 +24,8 @@ function wordsPerMin(err, wpm) {
 
 function start(callback) {
    alert("START TYPING!");
-   textArea.addEventListener('finished', function(e) {
-      addAttributes(textArea, options);
-   }, false);
+   textArea.addEventListener('finished',
+    addAttributes(textArea, options), false);
    textArea.dispatchEvent(fin);
    begin.getTime();
    //callback();
