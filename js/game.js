@@ -1,9 +1,6 @@
 var startButton = document.getElementById('startButton');
-startButton.onclick = start;
-
 var textArea = document.getElementById("textArea");
 var outputArea = document.getElementById("output");
-
 var targetText = "The quick brown fox jumps over the lazy dog.";
 var numWords = 9;
 var options = {
@@ -15,21 +12,32 @@ var fin = new Event('finished');
 var begin = new Date();
 var timeElapsed = 0;
 
+startButton.setAttribute('onclick', 'start(wordsPerMin)');
+//document.setAttribute('onkeypress', 'noPasting');
+document.addEventListener("keydown", noPasting, false);
+
+function noPasting(keypress) {
+  //console.log(keypress.keyCode);
+  if(keypress.keyCode === 86 && keypress.ctrlKey) {
+    alert("NO COPY/PASTING!");
+  }
+}
+
 function wordsPerMin(err, wpm) {
   if(err) {
     console.log("Error!");
   }
-  console.log("in WPM");
-  start();
+  console.log("Completed challenge.");
 }
 
-function start(callback) {
+function start(wordsPerMin) {
    alert("READY SET TYPE!");
    textArea.addEventListener('finished',
     addAttributes(textArea, options), false);
    textArea.dispatchEvent(fin);
    begin.getTime();
-   //callback();
+   console.log("Starting...");
+   wordsPerMin();
 }
 
 function timer() {
