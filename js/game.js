@@ -1,10 +1,11 @@
 var startButton = document.getElementById('startButton');
-startButton.onclick = start;// setListener;
+startButton.onclick = start;
 
 var textArea = document.getElementById("textArea");
 var outputArea = document.getElementById("output");
 
 var targetText = "The quick brown fox jumps over the lazy dog.";
+var numWords = 9;
 var options = {
   onkeyup: checkText
 };
@@ -34,7 +35,6 @@ function start(callback) {
 function timer() {
   var end = new Date().getTime();
   timeElapsed = end - begin;
-  console.log("timeElapsed: " + timeElapsed + "ms");
   return timeElapsed;
 }
 
@@ -42,8 +42,9 @@ function checkText(event) {
   input = event.target.value;
   if(input === targetText) {
     var elapsed = timer();
+    var wpm = parseInt(numWords / (elapsed / 1000) * 60);
     finish = true;
-    output.innerHTML = "Input matches! <br> Elapsed Time: " + elapsed + "ms";
+    output.innerHTML = "Input matches! <br> Words per Min: " + wpm;
   }
   else {
     finish = false;
