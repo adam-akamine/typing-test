@@ -7,13 +7,12 @@ var options = {
   onkeyup: checkText
 };
 var input = "";
-var finish = false;
 var fin = new Event('finished');
 var begin = new Date();
 var timeElapsed = 0;
+var wpm = 0;
 
 startButton.setAttribute('onclick', 'start(wordsPerMin)');
-//document.setAttribute('onkeypress', 'noPasting');
 document.addEventListener("keydown", noPasting, false);
 
 function noPasting(keypress) {
@@ -27,11 +26,11 @@ function wordsPerMin(err, wpm) {
   if(err) {
     console.log("Error!");
   }
-  console.log("Completed challenge.");
+  console.log("Started.");
 }
 
 function start(wordsPerMin) {
-   alert("READY SET TYPE!");
+   output.innerHTML = "START TYPING!";
    textArea.addEventListener('finished',
     addAttributes(textArea, options), false);
    textArea.dispatchEvent(fin);
@@ -48,17 +47,32 @@ function timer() {
 
 function checkText(event) {
   input = event.target.value;
-  if(input === targetText) {
-    var elapsed = timer();
-    var wpm = parseInt(numWords / (elapsed / 1000) * 60);
-    finish = true;
-    output.innerHTML = "Input matches! <br> Words per Min: " + wpm;
+  console.log("comparing " + input.charAt(input.length - 1) + " to " + targetText.charAt(input.length - 1));
+  if(input.charAt(input.length - 1) === targetText.charAt(input.length - 1)) {
+    if(input === targetText) {
+      var elapsed = timer();
+      wpm = parseInt(numWords / (elapsed / 1000) * 60);
+      output.innerHTML = "Input matches! <br> Words per Min: " + wpm;
+      return true;
+    }
+    output.innerHTML = "text matching, keep going!";
   }
   else {
-    finish = false;
-    output.innerHTML = "Input does not match: <br> The quick brown fox jumps over the lazy dog.";
+    output.innerHTML = "STAHP! NOT MATCHING: <br> The quick brown fox jumps over the lazy dog.";
   }
 }
+
+// function checkText(event) {
+//   input = event.target.value;
+//   if(input === targetText) {
+//     var elapsed = timer();
+//     wpm = parseInt(numWords / (elapsed / 1000) * 60);
+//     output.innerHTML = "Input matches! <br> Words per Min: " + wpm;
+//   }
+//   else {
+//     output.innerHTML = "Input does not match: <br> The quick brown fox jumps over the lazy dog.";
+//   }
+// }
 
 function addAttributes(element, attributes){
   if(typeof attributes === "object"){
